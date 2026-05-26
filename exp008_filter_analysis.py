@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
-ANNOTATIONS_CSV = 'results/exp008_multi_llm_annotations.csv'
-RESULTS_DIR = 'results'
+ANNOTATIONS_CSV = '/home/ubuntu/ec_hte_llm_annotation/results/exp008_multi_llm_annotations.csv'
+RESULTS_DIR = '/home/ubuntu/ec_hte_llm_annotation/results'
 MODELS_5 = ['gpt-3.5-turbo', 'gpt-4-turbo', 'gpt-4.1', 'gpt-4o', 'gpt-4o-mini']
 MIN_N = 10
 

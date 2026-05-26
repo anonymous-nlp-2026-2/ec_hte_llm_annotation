@@ -24,7 +24,8 @@ PROJ = Path(__file__).parent
 RESULTS = PROJ / "results"
 RESULTS.mkdir(exist_ok=True)
 
-API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
+API_KEY_PATH = PROJ / ".api_key"
+API_BASE = "http://47.94.22.126/v1"
 
 MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"]
 
@@ -111,9 +112,7 @@ def load_and_prepare():
 
 
 def get_client():
-    key = os.environ.get("OPENAI_API_KEY", "")
-    if not key:
-        raise ValueError("Set OPENAI_API_KEY environment variable")
+    key = API_KEY_PATH.read_text().strip()
     from openai import OpenAI
     return OpenAI(api_key=key, base_url=API_BASE)
 

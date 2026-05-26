@@ -33,12 +33,9 @@ def make_classifier(dry_run):
             return random.randint(0, 2)
         return classify_tweet
 
-    api_key = os.environ.get("OPENAI_API_KEY", "")
-    if not api_key:
-        raise ValueError("Set OPENAI_API_KEY environment variable")
     client = OpenAI(
-        api_key=api_key,
-        base_url=os.environ.get('OPENAI_API_BASE', 'https://api.openai.com/v1')
+        api_key=os.environ['OPENROUTER_API_KEY'],
+        base_url='http://47.94.22.126/v1'
     )
     model_name = 'gpt-4.1'
 

@@ -6,27 +6,30 @@ import numpy as np
 import pandas as pd
 
 plt.rcParams.update({
-    'font.family': 'DejaVu Sans',
-    'font.size': 11,
+    'font.family': 'serif',
+    'font.size': 10,
     'axes.titlesize': 11,
-    'axes.labelsize': 11,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
-    'legend.fontsize': 9,
+    'axes.labelsize': 10,
+    'xtick.labelsize': 9,
+    'ytick.labelsize': 9,
+    'legend.fontsize': 8.5,
+    'mathtext.fontset': 'stix',
     'figure.dpi': 300,
     'savefig.dpi': 300,
     'savefig.bbox': 'tight',
     'savefig.pad_inches': 0.05,
     'axes.spines.top': False,
     'axes.spines.right': False,
-    'lines.linewidth': 1.8,
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
+    'lines.linewidth': 1.6,
 })
 
-# Colors (Okabe-Ito based)
+# Colors (project palette — EC-HTE = green, consistent with Fig 1)
 COLORS = {
     'global_corrected': '#0072B2',
-    'hb_ec_hte': '#E69F00',
-    'stratified_mle': '#009E73',
+    'hb_ec_hte': '#009E73',
+    'stratified_mle': '#E69F00',
 }
 LINESTYLES = {
     'global_corrected': '-',
@@ -40,8 +43,8 @@ LABELS = {
 }
 
 # Load data
-df = pd.read_csv('results/exp006_budget_sensitivity.csv')
-crossover_df = pd.read_csv('results/exp006_crossover.csv')
+df = pd.read_csv('/home/ubuntu/ec_hte_llm_annotation/results/exp006_budget_sensitivity.csv')
+crossover_df = pd.read_csv('/home/ubuntu/ec_hte_llm_annotation/results/exp006_crossover.csv')
 
 # Filter to methods of interest
 methods = ['global_corrected', 'hb_ec_hte', 'stratified_mle']
@@ -56,7 +59,7 @@ agg = df.groupby(['regime', 'n_expert', 'k_subgroups', 'method']).agg(
 ).reset_index()
 
 # Panel layout: rows=K(2,4), cols=regime(extreme, moderate)
-fig, axes = plt.subplots(2, 2, figsize=(7, 3), sharex=True)
+fig, axes = plt.subplots(2, 2, figsize=(7.5, 3.2), sharex=True)
 
 panel_configs = [
     (0, 0, 2, 'extreme'),
@@ -133,9 +136,12 @@ fig.legend(handles, labels, loc='upper center', ncol=3, bbox_to_anchor=(0.5, 1.0
 
 plt.tight_layout(h_pad=0.8, w_pad=0.6)
 
-outdir = 'artifacts/figures'
+outdir = '/home/ubuntu/ec_hte_llm_annotation/artifacts/figures'
+paper_dir = '/home/ubuntu/.agent-ml-research-idea_gen_0520/projects/ec_hte_llm_annotation/docs/paper/figures'
 fig.savefig(f'{outdir}/fig3_budget.pdf', bbox_inches='tight')
 fig.savefig(f'{outdir}/fig3_budget.png', bbox_inches='tight')
+fig.savefig(f'{paper_dir}/fig3_budget.pdf', bbox_inches='tight')
+fig.savefig(f'{paper_dir}/fig3_budget.png', bbox_inches='tight')
 plt.close()
-print(f'Saved: {outdir}/fig3_budget.pdf')
-print(f'Saved: {outdir}/fig3_budget.png')
+print(f'Saved: {outdir}/fig3_budget.pdf/.png')
+print(f'Saved: {paper_dir}/fig3_budget.pdf/.png')

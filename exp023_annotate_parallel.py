@@ -4,7 +4,6 @@ Runs 3 models concurrently with 4 workers each.
 """
 
 import json
-import os
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -16,10 +15,8 @@ from openai import OpenAI
 PROJ = Path(__file__).parent
 RESULTS = PROJ / "results"
 
-API_KEY = os.environ.get("OPENAI_API_KEY", "")
-if not API_KEY:
-    raise ValueError("Set OPENAI_API_KEY environment variable")
-API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
+API_KEY = (PROJ / ".api_key").read_text().strip()
+API_BASE = "http://47.94.22.126/v1"
 
 MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"]
 

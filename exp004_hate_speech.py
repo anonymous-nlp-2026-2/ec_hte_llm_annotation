@@ -25,7 +25,7 @@ warnings.filterwarnings('ignore')
 
 RESULTS_DIR = 'results'
 DATA_DIR = 'data'
-API_KEY_PATH = None  # Uses OPENAI_API_KEY env var
+API_KEY_PATH = '/home/ubuntu/ec_hte_llm_annotation/.api_key'
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -196,11 +196,13 @@ def phase_prep(n_comments=2500, seed=42):
 def phase_annotate(resume=False):
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
-    api_key = os.environ.get("OPENAI_API_KEY", "")
-    if not api_key:
-        raise ValueError("Set OPENAI_API_KEY environment variable")
+    if not os.path.exists(API_KEY_PATH):
+        print(f"API key not found at {API_KEY_PATH}")
+        return None
+
+    api_key = open(API_KEY_PATH).read().strip()
     from openai import OpenAI
-    client = OpenAI(api_key=api_key, base_url=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1"))
+    client = OpenAI(api_key=api_key, base_url='http://47.94.22.126/v1')
 
     comments_path = os.path.join(RESULTS_DIR, 'exp004_comments_to_annotate.csv')
     if not os.path.exists(comments_path):

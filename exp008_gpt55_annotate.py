@@ -3,11 +3,8 @@ import json, os, time
 import pandas as pd
 from openai import OpenAI
 
-API_KEY = os.environ.get("OPENAI_API_KEY", "")
-if not API_KEY:
-    raise ValueError("Set OPENAI_API_KEY environment variable")
-API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
-CLIENT = OpenAI(api_key=API_KEY, base_url=API_BASE)
+API_KEY = open('/home/ubuntu/ec_hte_llm_annotation/.api_key').read().strip()
+CLIENT = OpenAI(api_key=API_KEY, base_url='http://47.94.22.126/v1')
 MODEL = 'gpt-5.5'
 PROMPT = (
     'Classify the sentiment of the following tweet as exactly one of: '
@@ -15,8 +12,8 @@ PROMPT = (
     'Tweet: "{text}"\n\n'
     'Reply with ONLY one word: positive, neutral, or negative.'
 )
-CKPT = 'results/exp008_checkpoint_gpt-5.5.json'
-DATA = 'results/pilot_gemini_annotations.csv'
+CKPT = '/home/ubuntu/ec_hte_llm_annotation/results/exp008_checkpoint_gpt-5.5.json'
+DATA = '/home/ubuntu/ec_hte_llm_annotation/results/pilot_gemini_annotations.csv'
 
 def classify(text, max_retries=3):
     label_map = {'negative': 0, 'neutral': 1, 'positive': 2}

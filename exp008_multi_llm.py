@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+API_KEY_PATH = Path(__file__).parent / ".api_key"
 RESULTS_DIR = Path(__file__).parent / "results"
 PILOT_CSV = RESULTS_DIR / "pilot_gemini_annotations.csv"
 
@@ -41,11 +42,12 @@ PREFERRED_MODELS = [
 
 
 def get_client():
-    key = os.environ.get("OPENAI_API_KEY", "")
-    if not key:
-        raise ValueError("Set OPENAI_API_KEY environment variable")
+    if not API_KEY_PATH.exists():
+        print("API key not found at", API_KEY_PATH)
+        return None
+    key = API_KEY_PATH.read_text().strip()
     from openai import OpenAI
-    return OpenAI(api_key=key, base_url=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1"))
+    return OpenAI(api_key=key, base_url="http://47.94.22.126/v1")
 
 
 def phase_probe():

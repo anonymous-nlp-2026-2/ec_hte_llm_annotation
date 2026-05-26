@@ -3,11 +3,8 @@ import json, os, sys, time
 import pandas as pd
 from openai import OpenAI
 
-API_KEY = os.environ.get("OPENAI_API_KEY", "")
-if not API_KEY:
-    raise ValueError("Set OPENAI_API_KEY environment variable")
-API_BASE = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
-CLIENT = OpenAI(api_key=API_KEY, base_url=API_BASE)
+API_KEY = open('/home/ubuntu/ec_hte_llm_annotation/.api_key').read().strip()
+CLIENT = OpenAI(api_key=API_KEY, base_url='http://47.94.22.126/v1')
 MODELS_TO_TRY = ['gpt-5.4', 'gpt-5', 'gpt-5-mini']
 PROMPT = (
     'Classify the sentiment of the following tweet as exactly one of: '
@@ -15,7 +12,7 @@ PROMPT = (
     'Tweet: "{text}"\n\n'
     'Reply with ONLY one word: positive, neutral, or negative.'
 )
-DATA = 'results/pilot_gemini_annotations.csv'
+DATA = '/home/ubuntu/ec_hte_llm_annotation/results/pilot_gemini_annotations.csv'
 
 def test_model(model_name):
     """Test if a model works with a simple prompt. Returns True if ok."""
@@ -70,7 +67,7 @@ def main():
         sys.exit(1)
 
     print(f"\nUsing model: {model}")
-    ckpt = f'results/exp008_checkpoint_{model}.json'
+    ckpt = f'/home/ubuntu/ec_hte_llm_annotation/results/exp008_checkpoint_{model}.json'
 
     df = pd.read_csv(DATA)
     results = []
@@ -95,7 +92,7 @@ def main():
     ok = sum(1 for r in results if r >= 0)
     print(f"\nDONE: model={model}, {len(results)} total, {ok} valid")
     # Write model name for downstream script
-    with open('results/exp008_gpt5x_model_used.txt', 'w') as f:
+    with open('/home/ubuntu/ec_hte_llm_annotation/results/exp008_gpt5x_model_used.txt', 'w') as f:
         f.write(model)
 
 if __name__ == '__main__':

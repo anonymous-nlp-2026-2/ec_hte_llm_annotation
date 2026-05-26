@@ -262,8 +262,8 @@ if __name__ == '__main__':
             print(sub[cols].to_string(index=False))
             print()
 
-    raw_path = 'results/mvp_results_v3_raw.csv'
-    agg_path = 'results/mvp_results_v3.csv'
+    raw_path = '/home/ubuntu/ec_hte_llm_annotation/results/mvp_results_v3_raw.csv'
+    agg_path = '/home/ubuntu/ec_hte_llm_annotation/results/mvp_results_v3.csv'
     raw_cols = ['regime', 'n_expert', 'mc_run', 'method', 'level',
                 'tau_hat_z0', 'tau_hat_z1', 'tau_true_z0', 'tau_true_z1',
                 'ci_lower_z0', 'ci_upper_z0', 'ci_lower_z1', 'ci_upper_z1']

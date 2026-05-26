@@ -279,7 +279,7 @@ def main():
               f"{r['mean_width_z0']:9.4f} {r['mean_width_z1']:9.4f}")
 
     # ── Save ──
-    proj = '.'
+    proj = '/home/ubuntu/ec_hte_llm_annotation'
     os.makedirs(f'{proj}/results', exist_ok=True)
     csv_path = f'{proj}/results/exp_mf2_cf_bootstrap_se.csv'
     raw_path = f'{proj}/results/exp_mf2_cf_bootstrap_se_raw.csv'

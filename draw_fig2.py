@@ -7,23 +7,26 @@ import numpy as np
 import pandas as pd
 
 plt.rcParams.update({
-    'font.family': 'DejaVu Sans',
-    'font.size': 11,
-    'axes.titlesize': 13,
-    'axes.labelsize': 12,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
-    'legend.fontsize': 10,
+    'font.family': 'serif',
+    'font.size': 10,
+    'axes.titlesize': 11,
+    'axes.labelsize': 10,
+    'xtick.labelsize': 9,
+    'ytick.labelsize': 9,
+    'legend.fontsize': 8.5,
+    'mathtext.fontset': 'stix',
     'figure.dpi': 300,
     'savefig.dpi': 300,
     'savefig.bbox': 'tight',
     'savefig.pad_inches': 0.05,
     'axes.spines.top': False,
     'axes.spines.right': False,
-    'lines.linewidth': 1.8,
+    'pdf.fonttype': 42,
+    'ps.fonttype': 42,
+    'lines.linewidth': 1.6,
 })
 
-df = pd.read_csv('results/exp002_bias_heatmap.csv')
+df = pd.read_csv('/home/ubuntu/ec_hte_llm_annotation/results/exp002_bias_heatmap.csv')
 
 dm_vals = np.sort(df['delta_misclass'].unique())
 dc_vals = np.sort(df['delta_cate'].unique())
@@ -82,10 +85,12 @@ ax_b.spines['right'].set_visible(True)
 
 ax_b.annotate('debiasing\nhurts', xy=(0.20, 0.30), fontsize=9, color='#B71C1C',
               fontweight='bold', ha='center', va='center',
-              path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
+              path_effects=[pe.withStroke(linewidth=3.0, foreground='white'),
+                            pe.Normal()])
 ax_b.annotate('debiasing\nhelps', xy=(0.06, 0.30), fontsize=9, color='#1565C0',
               fontweight='bold', ha='center', va='center',
-              path_effects=[pe.withStroke(linewidth=2.5, foreground='white')])
+              path_effects=[pe.withStroke(linewidth=3.0, foreground='white'),
+                            pe.Normal()])
 
 cbar = fig.colorbar(im_b, cax=cax)
 cbar.set_label(r'Bias ratio ($|\mathrm{bias_{global}}|/|\mathrm{bias_{naive}}|$)',
@@ -93,8 +98,11 @@ cbar.set_label(r'Bias ratio ($|\mathrm{bias_{global}}|/|\mathrm{bias_{naive}}|$)
 cbar.ax.axhline(1.0, color='black', linewidth=1.0)
 cbar.ax.tick_params(labelsize=9)
 
-out_base = 'artifacts/figures/fig2_heatmap'
+out_base = '/home/ubuntu/ec_hte_llm_annotation/artifacts/figures/fig2_heatmap'
+paper_base = '/home/ubuntu/.agent-ml-research-idea_gen_0520/projects/ec_hte_llm_annotation/docs/paper/figures/fig2_heatmap'
 plt.savefig(f'{out_base}.pdf')
 plt.savefig(f'{out_base}.png')
+plt.savefig(f'{paper_base}.pdf')
+plt.savefig(f'{paper_base}.png')
 plt.close()
-print(f'Saved: {out_base}.pdf and {out_base}.png')
+print(f'Saved: {out_base}.pdf/.png and {paper_base}.pdf/.png')
